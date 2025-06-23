@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-community
+openai
+python-dotenv
+streamlit
+tqdm
+pydantic
+requests
+duckduckgo-search
