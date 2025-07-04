@@ -1,12 +1,10 @@
-langchain
-langgraph
+crewai
 langchain-openai
 langchain-community
-openai
 python-dotenv
 streamlit
+streamlit-calendar
 tqdm
 pydantic
-requests
-duckduckgo-search
 sqlalchemy
+pandas

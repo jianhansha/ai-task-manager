@@ -1,22 +1,27 @@
-
+from agents.base_agent import BaseAgent
+from langchain_community.agent_toolkits.sql.base import create_sql_agent
+from langchain_community.agent_toolkits.sql.toolkit import SQLDatabaseToolkit
+from langchain_community.utilities import SQLDatabase
 from langchain_openai import ChatOpenAI
-from langchain.agents import create_sql_agent
-from langchain.agents.agent_toolkits import SQLDatabaseToolkit
-from langchain.sql_database import SQLDatabase
-from dotenv import load_dotenv
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 
-project_root = os.path.dirname(os.path.abspath(__file__))
-chosen_model = os.getenv("OPENAI_MODEL")
+class TaskViewerAgent(BaseAgent):
+    def __init__(self, llm=None):
+        project_root = os.path.dirname(os.path.abspath(__file__))
+        db_path = f"sqlite:///{os.path.join(project_root, '..', 'data', 'tasks.db')}"
+        db = SQLDatabase.from_uri(db_path)
+        toolkit = SQLDatabaseToolkit(db=db, llm=llm)
+        self.agent_executor = create_sql_agent(llm=llm, toolkit=toolkit, verbose=True)
 
-db_path = f"sqlite:///{os.path.join(project_root, '..', 'data', 'tasks.db')}"
-db = SQLDatabase.from_uri(db_path)
-llm = ChatOpenAI(temperature=0, model=chosen_model)
+        super().__init__(
+            role="Task Viewer",
+            goal="Fetch and summarize relevant tasks based on user's request.",
+            backstory="A database specialist with full access to the user's task database. Can understand SQL and retrieve or summarize tasks on request.",
+            llm=llm
+        )
 
-agent_executor = create_sql_agent(
-    llm=llm,
-    toolkit=SQLDatabaseToolkit(db=db, llm=llm),
-    verbose=True
-)
+    def view_tasks(self, query: str) -> str:
+        return self.agent_executor.run(query)
