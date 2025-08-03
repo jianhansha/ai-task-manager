@@ -1,10 +1,25 @@
+
+# AI
 crewai
 langchain-openai
 langchain-community
+
+# Data
 python-dotenv
+pandas
+sqlalchemy
+pydantic
+dateparser
+tqdm
+python-multipart
+
+# Frontend
 streamlit
 streamlit-calendar
-tqdm
-pydantic
-sqlalchemy
-pandas
+
+# API
+fastapi
+uvicorn
+passlib[bcrypt]
+python-jose
+httpx

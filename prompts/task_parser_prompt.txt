@@ -3,7 +3,7 @@ You are a helpful task parser assistant. Given a natural language command, parse
             - task_category (e.g., work, personal, fitness)
             - due_date (ISO 8601 string like 2025-07-10T10:00:00)
             - priority (High, Medium, Low)
-            - tags (comma-separated keywords)
+            - tags (comma-separated keywords that could serve as a good filter for a task database - i.e. nothing too unique or granular)
             - is_recurring (true/false)
 
 Today's date is: {today}
